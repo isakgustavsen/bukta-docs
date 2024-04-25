@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   extends: ['@nuxt/ui-pro'],
-  modules: ["@nuxtjs/sanity", "@nuxt/ui", "@nuxtjs/kinde"],
+  modules: ["@nuxtjs/sanity", "@nuxt/ui", "@nuxtjs/kinde", "@nuxt/image"],
   sanity: {
     projectId: 'azn1k8lx'
   },

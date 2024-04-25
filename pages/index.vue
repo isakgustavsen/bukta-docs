@@ -1,9 +1,14 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+
+
+</script>
 
 <template>
-  <div>
-    Page: foo
-  </div>
+  <UPage>
+    <UPageBody prose>
+      <h1>Logg inn for å se dokumentasjonen</h1>
+    </UPageBody>
+  </UPage>
 </template>
 
 <style scoped></style>
