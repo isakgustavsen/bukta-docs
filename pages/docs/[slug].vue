@@ -1,5 +1,4 @@
 <template>
-  <UDashboardNavbar :title="data?.title" />
   <UDashboardPanelContent>
       <UPageBody prose >
           <SanityContent :blocks="data?.content" />
@@ -42,11 +41,13 @@ definePageMeta({
 })
 
 const query = groq`*[_type == "contentPage" && slug.current == $slug][0] {
-title,
-content,
-video,
-gallery
+  title,
+  content,
+  video,
+  gallery
 }`
 
-const { data } = useSanityQuery<ContentPost>(query, { slug: route.params.slug })
+const { data } = await useSanityQuery<ContentPost>(query, { slug: route.params.slug })
+useTitle(data.value?.title)
+
 </script>
