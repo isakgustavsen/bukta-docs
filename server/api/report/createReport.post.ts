@@ -4,13 +4,9 @@ export default defineEventHandler(async (event) => {
   const client = await serverSupabaseClient(event)
   const body = await readBody(event)
   
-  console.log(body)
   const {data, error } = await client.from('reports').insert(body).select().single()
   if(error){
-      throw createError({
-        statusCode: 404,
-        statusMessage: error.message
-      })
+      return {error}
   }
   const {data: activity, error: activityError} = await client.from('report_activity').insert({
     report_id: data.id,
@@ -20,11 +16,7 @@ export default defineEventHandler(async (event) => {
   })
 
   if(activityError){
-    console.error(activityError)
-    throw createError({
-      statusCode: 404,
-      statusMessage: activityError.message
-    })
+    return { error }
   }
-  return {data, error}
+  return {data}
 })

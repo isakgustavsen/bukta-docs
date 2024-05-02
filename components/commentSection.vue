@@ -30,8 +30,6 @@
       </template>
     </li>
   </ul>
-  <p>Id is: {{ user }}</p>
-  <p>{{ state }}</p>
   <!-- New comment form -->
   <div class="mt-6 flex gap-x-3">
     <UIcon name="i-heroicons-user-circle" class="h-6 w-6 text-slate-700 dark:text-slate-400 " aria-hidden="true" />
@@ -56,15 +54,6 @@ const props = defineProps({
   id: Number
 })
 
-// const user = await client?.getUserProfile();
-
-
-const { data: user } = await useAsyncData(async () => {
-  return await client?.getUser() ?? {}
-});
-
-console.log(user)
-
 //Fetch activity
 const { data: report_activity } = await supabase.from('report_activity').select('*').eq('report_id', props.id)
 
@@ -82,7 +71,6 @@ const validate = (state: any): FormError[] => {
 
 async function onSubmit (event: FormSubmitEvent<any>) {
   // const { data, error } = await supabase.from('report_activity').insert()
-  console.log(event.data)
 }
 
 
