@@ -11,7 +11,6 @@ const { data, error } = await supabase.from("reports").select("*");
                 Du har blitt logget inn {{ $auth.user.given_name }}!
             </h1>
             <h1 v-else>Logg inn for å se dokumentasjonen</h1>
-            <h2>Reports</h2>
         </UPageBody>
     </UDashboardPanelContent>
 </template>
