@@ -71,7 +71,6 @@ const validate = (state: any): FormError[] => {
 
 async function onSubmit (event: FormSubmitEvent<any>) {
   // const { data, error } = await supabase.from('report_activity').insert()
-  console.log(event.data)
 }
 
 
