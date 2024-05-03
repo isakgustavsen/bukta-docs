@@ -48,30 +48,30 @@
                 <UNotifications />
             </UDashboardPanel>
             <UDashboardSlideover v-model="isSlideoverOpen" >
-                <UForm :validate="validate" :state="formState" class="space-y-4" @submit="onSubmit">
+                <UForm :validate="validate" :state="state" class="space-y-4" @submit="onSubmit">
                     
                     <UFormGroup label="Tittel" name="title">
-                        <UInput v-model="formState.title" />
+                        <UInput v-model="state.title" />
                     </UFormGroup>
 
                     <UFormGroup label="Når skjedde hendelsen?" name="date">
-                        <UInput v-model="formState.date" type="datetime-local" />
+                        <UInput v-model="state.date" type="datetime-local" />
                     </UFormGroup>
 
                     <UFormGroup label="Hvor skjedde hendelsen?" name="location">
-                        <UInput v-model="formState.location" type="password" />
+                        <UInput v-model="state.location" type="password" />
                     </UFormGroup>
 
                     <UFormGroup label="Beskrv arbeidet" name="description">
-                        <UTextarea v-model="formState.description" />
+                        <UTextarea v-model="state.description" />
                     </UFormGroup>
 
                     <UFormGroup label="Beskriv hendelsesforløpet" name="cause">
-                        <UTextarea v-model="formState.cause" />
+                        <UTextarea v-model="state.cause" />
                     </UFormGroup>
 
                     <UFormGroup label="Utbedringer" name="improvment" description="Om relevant">
-                        <UTextarea v-model="formState.improvement"/>
+                        <UTextarea v-model="state.improvement"/>
                     </UFormGroup>
                     <UDivider />
                     <UFormGroup label="Send inn anonymt" description="Ved å velge denne vil ingen personopplysninger bli tilknyttet rapporten">
@@ -141,7 +141,7 @@ if (permissions.value) {
 
 import type { FormError, FormSubmitEvent } from '#ui/types'
 
-const formState = ref({
+const state = ref({
   title: undefined,
   location: undefined,
   date: undefined,
@@ -151,7 +151,7 @@ const formState = ref({
   status: 'Pending',
 })
 
-const validate = (formState: any): FormError[] => {
+const validate = (state: any): FormError[] => {
   const errors = []
   if (!state.title) errors.push({ path: 'title', message: 'Required' })
   if (!state.location) errors.push({ path: 'location', message: 'Required' })
@@ -186,6 +186,16 @@ async function onSubmit (event: FormSubmitEvent<any>) {
             description: 'Rapporten er sendt inn med id: ' + data.value?.data.id
         })
     }
+
+    state.value = {
+        title: undefined,
+        location: undefined,
+        date: undefined,
+        description: undefined,
+        cause: undefined,
+        improvement: undefined,
+        status: 'Pending',
+        }
 }
 
 </script>

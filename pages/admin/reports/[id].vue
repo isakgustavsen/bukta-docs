@@ -5,6 +5,7 @@ import { format } from "@formkit/tempo"
 const route = useRoute();
 const supabase = useSupabaseClient<Database>();
 const pending = ref(false)
+const userprofile = useState('profile')
 
 const comments = ref()
 const statusOptions = [
@@ -41,8 +42,23 @@ async function updateStatus() {
         })
     }
     const { data, error } = await supabase.from('reports').update({status: newStatus.value}).eq('id', report?.id).select()
-    console.error(error)
-    if(data){pending.value = false}
+    const { data: status } = await supabase
+        .from('report_activity')
+        .update({
+            report_id: report.id,
+            user_id: userprofile.value.id,
+            user_name: userprofile.value.name,
+            type: 'updated'
+        })
+    if(error){
+        throw createError({
+            statusCode: 404,
+            statusMessage: error.message
+        })
+    }
+    if(data){
+        pending.value = false
+        }
 }
 
 
@@ -54,13 +70,12 @@ useTitle(report?.title ?? 'Rapport')
 <template>
     <UDashboardPanelContent>
         <UPageBody prose>
-            {{ $auth.user?.id }}
             <div class="flex flex-col">
                 <div>
                     <h3>Informasjon</h3>
                     <UDivider />
                     <h4><UIcon name="i-heroicons-clock" /> {{ format(report?.created_at ?? 'Ikke angitt', "hh:mm - DD/MM/YYYY",) }}</h4>
-                    <p><UIcon name="i-heroicons-map" /> {{ report?.place ?? 'Ikke angitt' }}</p>
+                    <p><UIcon name="i-heroicons-map" /> {{ report?.location ?? 'Ikke angitt' }}</p>
                     <UButtonGroup>
                         <USelect :options="statusOptions" v-model="newStatus" :disabled="pending" />
                         <UButton label="Oppdater" v-if="newStatus != report?.status" :loading="pending" @click="updateStatus" />
@@ -84,7 +99,7 @@ useTitle(report?.title ?? 'Rapport')
             </div>
         </UPageBody>
         <UDivider label="Kommentarer"/>
-        <LazyCommentSection :id="report?.id" />
+        <LazyActivityMenu :id="report?.id" />
     </UDashboardPanelContent>
 </template>
 

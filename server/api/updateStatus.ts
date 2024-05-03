@@ -1,11 +1,10 @@
 import { serverSupabaseClient } from '#supabase/server'
 import type { Database } from '~/types/supabase'
-import type { report } from '~/types'
 
 export default defineEventHandler(async (event) => {
   const client = await serverSupabaseClient<Database>(event)
-  const body:report = await readBody(event)
-
+  const body = await readBody(event)
+  
   const {data, error } = await client
     .from('reports')
     .insert(body)

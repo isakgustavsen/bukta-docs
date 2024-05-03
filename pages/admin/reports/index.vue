@@ -31,7 +31,7 @@ const columns = [
     },
 ];
 
-let query = supabase.from("reports").select("*")
+let query = supabase.from("reports").select("*").order('status', {ascending: true})
 
 const { data } = await useAsyncData('reports', async () => {
   const { data } = await query
@@ -39,15 +39,12 @@ const { data } = await useAsyncData('reports', async () => {
   return data
 })
 
-// const { data } = await query;
 
 </script>
 
 <template>
     <UDashboardPanelContent>
         <h1 v-if="isCompletedSelected" >Valgt</h1>
-        <UCheckbox label="Se fullførte" v-model="isCompletedSelected" />
-        {{ isCompletedSelected }}
         <UTable v-if="data" :rows="data" :columns="columns">
             <template #created_at-data="{ row }">
                 {{ format(row.created_at, { date: "medium", time: "medium" }) }}

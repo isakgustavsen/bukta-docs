@@ -44,3 +44,15 @@ export interface Comment {
   user_id:string,
   comment:string,
 }
+
+export type Userprofile = {
+  id: string,
+  sub: string,
+  name: string,
+  email: string,
+  picture: string,
+  given_name: string,
+  updated_at: undefined,
+  family_name: string,
+  preferred_username: string
+}
