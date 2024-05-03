@@ -23,7 +23,7 @@
           <div class="h-1.5 w-1.5 rounded-full bg-gray-100 dark:bg-slate-800 ring-1 ring-gray-300 dark:ring-slate-600" />
         </div>
         <p class="flex-auto py-0.5 text-xs leading-5 text-gray-500">
-          <span class="font-medium text-gray-900 dark:text-slate-100">{{ activityItem.user_name }}</span> {{ activityItem.type }} the invoice.
+          <span class="font-medium text-gray-900 dark:text-slate-100">{{ activityItem.user_name }}</span> {{ activityItem.type }} the report.
         </p>
         <time :datetime="activityItem.created_at" class="flex-none py-0.5 text-xs leading-5 text-gray-500">{{ format(activityItem.created_at, { date: "medium", time: "medium" }) }}</time>
       </template>

@@ -10,7 +10,7 @@ const { data, error } = await supabase.from("reports").select("*");
             <h1 v-if="$auth.loggedIn">
                 Du har blitt logget inn {{ $auth.user.given_name }}!
             </h1>
-            <h1 v-else>Logg inn for å se dokumentasjonen</h1>
+            <h1 v-else>Logg inn for å se mer</h1>
         </UPageBody>
     </UDashboardPanelContent>
 </template>

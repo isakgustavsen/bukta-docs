@@ -14,38 +14,30 @@ export type Database = {
           comment: string | null
           created_at: string
           id: number
-          name: string
           report_id: number
           type: Database["public"]["Enums"]["activity_type"]
           user_id: string | null
+          user_name: string | null
         }
         Insert: {
           comment?: string | null
           created_at?: string
           id?: number
-          name: string
           report_id: number
           type: Database["public"]["Enums"]["activity_type"]
           user_id?: string | null
+          user_name?: string | null
         }
         Update: {
           comment?: string | null
           created_at?: string
           id?: number
-          name?: string
           report_id?: number
           type?: Database["public"]["Enums"]["activity_type"]
           user_id?: string | null
+          user_name?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "report_comments_report_id_fkey"
-            columns: ["report_id"]
-            isOneToOne: false
-            referencedRelation: "reports"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       reports: {
         Row: {
@@ -53,10 +45,11 @@ export type Database = {
           created_at: string
           date: string | null
           description: string | null
-          id: number
+          id: string
           images: string[] | null
           improvement: string | null
           location: string | null
+          measure: string | null
           status: Database["public"]["Enums"]["status"] | null
           title: string | null
           user_id: string | null
@@ -67,10 +60,11 @@ export type Database = {
           created_at?: string
           date?: string | null
           description?: string | null
-          id?: number
+          id: string
           images?: string[] | null
           improvement?: string | null
           location?: string | null
+          measure?: string | null
           status?: Database["public"]["Enums"]["status"] | null
           title?: string | null
           user_id?: string | null
@@ -81,10 +75,11 @@ export type Database = {
           created_at?: string
           date?: string | null
           description?: string | null
-          id?: number
+          id?: string
           images?: string[] | null
           improvement?: string | null
           location?: string | null
+          measure?: string | null
           status?: Database["public"]["Enums"]["status"] | null
           title?: string | null
           user_id?: string | null
