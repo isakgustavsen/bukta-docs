@@ -48,30 +48,30 @@
                 <UNotifications />
             </UDashboardPanel>
             <UDashboardSlideover v-model="isSlideoverOpen" >
-                <UForm :validate="validate" :state="state" class="space-y-4" @submit="onSubmit">
+                <UForm :validate="validate" :state="formState" class="space-y-4" @submit="onSubmit">
                     
                     <UFormGroup label="Tittel" name="title">
-                        <UInput v-model="state.title" />
+                        <UInput v-model="formState.title" />
                     </UFormGroup>
 
                     <UFormGroup label="Når skjedde hendelsen?" name="date">
-                        <UInput v-model="state.date" type="datetime-local" />
+                        <UInput v-model="formState.date" type="datetime-local" />
                     </UFormGroup>
 
                     <UFormGroup label="Hvor skjedde hendelsen?" name="location">
-                        <UInput v-model="state.location" type="password" />
+                        <UInput v-model="formState.location" type="password" />
                     </UFormGroup>
 
                     <UFormGroup label="Beskrv arbeidet" name="description">
-                        <UTextarea v-model="state.description" />
+                        <UTextarea v-model="formState.description" />
                     </UFormGroup>
 
                     <UFormGroup label="Beskriv hendelsesforløpet" name="cause">
-                        <UTextarea v-model="state.cause" />
+                        <UTextarea v-model="formState.cause" />
                     </UFormGroup>
 
                     <UFormGroup label="Utbedringer" name="improvment" description="Om relevant">
-                        <UTextarea v-model="state.improvement"/>
+                        <UTextarea v-model="formState.improvement"/>
                     </UFormGroup>
                     <UDivider />
                     <UFormGroup label="Send inn anonymt" description="Ved å velge denne vil ingen personopplysninger bli tilknyttet rapporten">
@@ -87,7 +87,10 @@
 
 <script setup lang="ts">
 const client = useKindeClient();
-const links = ref([]);
+const links = ref([{
+    label: 'Hjem',
+    to: '/'
+}]);
 const isSlideoverOpen = ref(false)
 const toast = useToast()
 const anonymous = ref(false)
@@ -97,8 +100,6 @@ const title = useState('title', () => 'Hjem')
 const {data: user} = await useAsyncData(async () => {
     return (await client?.getUserProfile()) ?? {};
 });
-
-console.log(user.value.name)
 
 const adminLinks = [
     {
@@ -123,6 +124,7 @@ const {data: permissions} = await useAsyncData(async () => {
     return permissions;
 });
 
+//Fetch navigationtree for the user
 if (permissions.value) {
     for (let i = 0; i < permissions.value.length; i++) {
         const permission = permissions.value[i];
@@ -140,16 +142,16 @@ if (permissions.value) {
 import type { FormError, FormSubmitEvent } from '#ui/types'
 
 const formState = ref({
-  title: 'fd',
-  location: 'undefined',
-  date: '2024-05-31T13:58:00+00:00',
-  description: 'undefined',
-  cause: 'undefined',
-  improvement: 'undefined',
+  title: undefined,
+  location: undefined,
+  date: undefined,
+  description: undefined,
+  cause: undefined,
+  improvement: undefined,
   status: 'Pending',
 })
 
-const validate = (state: any): FormError[] => {
+const validate = (formState: any): FormError[] => {
   const errors = []
   if (!state.title) errors.push({ path: 'title', message: 'Required' })
   if (!state.location) errors.push({ path: 'location', message: 'Required' })
@@ -168,7 +170,7 @@ async function onSubmit (event: FormSubmitEvent<any>) {
         event.data.user_name = user.value.name
     }
     else{
-        event.data.user_name = 'Anonymt'
+        event.data.user_name = 'Anonym'
     }
     const {data, error} = useFetch('/api/report/createReport',{
         method: 'post',
