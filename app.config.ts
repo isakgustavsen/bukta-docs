@@ -1,7 +1,10 @@
 export default defineAppConfig({
     ui: {
       primary: 'yellow',
-      gray: 'cool'
+      gray: 'cool',
+      notifications: {
+        position: 'top-auto bottom-0'
+      }
     }
   })
   

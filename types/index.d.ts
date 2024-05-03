@@ -24,14 +24,15 @@ type Asset = {
 
 export interface report {
   id: number;
-  user_id: text;
-  place: text;
+  user_id: string;
+  user_name: string
+  location: string;
   date: date;
   title: string;
   description: string;
   cause: string;
   images: array<string>;
-  status: string;
+  status: 'Pending' | 'Completed';
   improvement: string;
 }
 

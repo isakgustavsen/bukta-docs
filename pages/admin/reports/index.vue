@@ -10,6 +10,7 @@ import type { Database } from '~/types/supabase';
 import { format } from "@formkit/tempo"
 
 const supabase = useSupabaseClient<Database>();
+const isCompletedSelected = ref(false)
 
 const columns = [
     {
@@ -30,13 +31,24 @@ const columns = [
     },
 ];
 
-const { data } = await supabase.from("reports").select("*");
+let query = supabase.from("reports").select("*")
+
+const { data } = await useAsyncData('reports', async () => {
+  const { data } = await query
+
+  return data
+})
+
+// const { data } = await query;
 
 </script>
 
 <template>
     <UDashboardPanelContent>
-        <UTable :rows="data" :columns="columns">
+        <h1 v-if="isCompletedSelected" >Valgt</h1>
+        <UCheckbox label="Se fullførte" v-model="isCompletedSelected" />
+        {{ isCompletedSelected }}
+        <UTable v-if="data" :rows="data" :columns="columns">
             <template #created_at-data="{ row }">
                 {{ format(row.created_at, { date: "medium", time: "medium" }) }}
             </template>

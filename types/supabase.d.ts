@@ -14,7 +14,8 @@ export type Database = {
           comment: string | null
           created_at: string
           id: number
-          report_id: number | null
+          name: string
+          report_id: number
           type: Database["public"]["Enums"]["activity_type"]
           user_id: string | null
         }
@@ -22,7 +23,8 @@ export type Database = {
           comment?: string | null
           created_at?: string
           id?: number
-          report_id?: number | null
+          name: string
+          report_id: number
           type: Database["public"]["Enums"]["activity_type"]
           user_id?: string | null
         }
@@ -30,7 +32,8 @@ export type Database = {
           comment?: string | null
           created_at?: string
           id?: number
-          report_id?: number | null
+          name?: string
+          report_id?: number
           type?: Database["public"]["Enums"]["activity_type"]
           user_id?: string | null
         }
@@ -53,10 +56,11 @@ export type Database = {
           id: number
           images: string[] | null
           improvement: string | null
-          place: string | null
+          location: string | null
           status: Database["public"]["Enums"]["status"] | null
           title: string | null
           user_id: string | null
+          user_name: string | null
         }
         Insert: {
           cause?: string | null
@@ -66,10 +70,11 @@ export type Database = {
           id?: number
           images?: string[] | null
           improvement?: string | null
-          place?: string | null
+          location?: string | null
           status?: Database["public"]["Enums"]["status"] | null
           title?: string | null
           user_id?: string | null
+          user_name?: string | null
         }
         Update: {
           cause?: string | null
@@ -79,10 +84,11 @@ export type Database = {
           id?: number
           images?: string[] | null
           improvement?: string | null
-          place?: string | null
+          location?: string | null
           status?: Database["public"]["Enums"]["status"] | null
           title?: string | null
           user_id?: string | null
+          user_name?: string | null
         }
         Relationships: []
       }
