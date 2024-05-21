@@ -16,7 +16,7 @@
                     <template #footer>
                         <div class="flex flex-col w-full space-y-2" >
                             <UButton
-                                v-if="$auth.loggedIn"
+                               
                                 block
                                 label="Opprett ny HMS-rapport"
                                 @click="isSlideoverOpen = true"

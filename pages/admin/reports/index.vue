@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 definePageMeta({
     title: "foo",
-    middleware: "has-report-access",
 });
 
 useTitle('Rapporter')
@@ -31,13 +30,9 @@ const columns = [
     },
 ];
 
-let query = supabase.from("reports").select("*").order('status', {ascending: true})
-
-const { data } = await useAsyncData('reports', async () => {
-  const { data } = await query
-
-  return data
-})
+const { data, error } = await useFetch("/api/report/getReports", {
+    method: "POST"
+    })
 
 
 </script>
@@ -45,7 +40,7 @@ const { data } = await useAsyncData('reports', async () => {
 <template>
     <UDashboardPanelContent>
         <h1 v-if="isCompletedSelected" >Valgt</h1>
-        <UTable v-if="data" :rows="data" :columns="columns">
+        <UTable v-if="data" :rows="data.data" :columns="columns">
             <template #created_at-data="{ row }">
                 {{ format(row.created_at, { date: "medium", time: "medium" }) }}
             </template>
